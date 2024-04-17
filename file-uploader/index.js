@@ -24,3 +24,8 @@ uploadArea.addEventListener("change", ({target}) => {
       });
     reader.readAsDataURL(file);
 })
+
+function clearImage(){
+    localStorage.clear();
+    canvasImg.src = ""
+}
