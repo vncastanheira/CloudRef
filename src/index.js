@@ -11,14 +11,14 @@ import { contextMenuSubscribe } from './context-menu'
 
     // Intialize the application.
     await app.init({ 
-        background: '#1199bb',
+        background: '#3b3b3b',
         resizeTo: window,
         eventMode: 'passive',
         eventFeatures: {
             click: true,
             globalMove: false,
             move: true,
-            wheel: false
+            wheel: true
         }
      });
     // Then adding the application's canvas to the DOM body.
@@ -26,8 +26,21 @@ import { contextMenuSubscribe } from './context-menu'
 
     const imagesContainer = new Container();
     app.stage.addChild(imagesContainer);
+    app.canvas.addEventListener('dragover', (e) => {
+        e.preventDefault();
+    })
+    app.canvas.addEventListener('drop', (e) => {
+        e.preventDefault();
+        console.log('Drop')
+        console.log(e)
 
-    const onUploadFile = (file) => {
+        const imgFile = e.dataTransfer?.files[0];
+        console.log(imgFile);
+
+        onUploadFile(imgFile, e.screenX, e.screenY);
+    })
+
+    const onUploadFile = (file, x, y) => {
         const reader = new FileReader();
         reader.addEventListener('load', async (event) => {
             var imgSrc = event.target.result;
@@ -35,19 +48,19 @@ import { contextMenuSubscribe } from './context-menu'
 
             let sprite = Sprite.from(imgSrc);
             sprite.anchor.set(0.5);
-            sprite.x = app.screen.width / 2;
-            sprite.y = app.screen.height / 2;
+            sprite.x = x;
+            sprite.y = y;
 
             sprite.eventMode = 'static';
             sprite.cursor = 'pointer';
-            sprite.on('click', (e) => { alert(`clicked on ${imgSrc}`)});
+            sprite.on('click', (e) => { 
+                console.log(`Clicked on ${file.name}`)
+            });
         
             imagesContainer.addChild(sprite);
         });
         reader.readAsDataURL(file);
     }
-
-    registerUploader(app, onUploadFile);
 
     contextMenuSubscribe();
 })();
