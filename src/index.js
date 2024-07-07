@@ -40,6 +40,30 @@ import { contextMenuSubscribe } from './context-menu'
         onUploadFile(imgFile, e.clientX, e.clientY);
     })
 
+    app.stage.eventMode = 'static';
+    app.stage.hitArea = app.screen;
+    app.stage.on('pointerup', onDragEnd);
+    app.stage.on('pointerupoutside', onDragEnd);
+
+    let dragTarget = null;
+
+    function onDragMove(event)
+    {
+        if (dragTarget)
+        {
+            dragTarget.parent.toLocal(event.global, null, dragTarget.position);
+        }
+    }
+
+    function onDragEnd()
+    {
+        if (dragTarget)
+        {
+            app.stage.off('pointermove', onDragMove);
+            dragTarget = null;
+        }
+    }
+
     const onUploadFile = (file, x, y) => {
         const reader = new FileReader();
         reader.addEventListener('load', async (event) => {
@@ -56,6 +80,10 @@ import { contextMenuSubscribe } from './context-menu'
             sprite.on('click', (e) => { 
                 console.log(`Clicked on ${file.name}`)
             });
+            sprite.on('pointerdown', () => {
+                dragTarget = sprite;
+                app.stage.on('pointermove', onDragMove);
+            })
         
             imagesContainer.addChild(sprite);
         });
