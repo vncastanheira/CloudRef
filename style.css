@@ -1,4 +1,8 @@
-#form-input {
+body {
+    margin: 0;
+}
+
+/* #form-input {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -8,4 +12,4 @@
     position: absolute;
     width: 100%;
     height: 100%;
-}
+} */

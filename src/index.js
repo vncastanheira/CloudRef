@@ -37,7 +37,7 @@ import { contextMenuSubscribe } from './context-menu'
         const imgFile = e.dataTransfer?.files[0];
         console.log(imgFile);
 
-        onUploadFile(imgFile, e.screenX, e.screenY);
+        onUploadFile(imgFile, e.clientX, e.clientY);
     })
 
     const onUploadFile = (file, x, y) => {
