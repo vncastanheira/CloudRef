@@ -10,8 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@pixi/ui": "^2.0.1",
-    "pixi.js": "^8.1.0"
+    "@pixi/ui": "^2.1.2",
+    "pixi.js": "^8.2.2"
   },
   "devDependencies": {
     "parcel-bundler": "^1.12.5"
