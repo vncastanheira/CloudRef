@@ -2,6 +2,7 @@
 import { Application, Assets, Container, Loader, Rectangle, Sprite } from 'pixi.js';
 import { registerUploader } from './image-uploader.js'
 import { contextMenuSubscribe } from './context-menu'
+import { drawHandle } from './handle.js';
 
 // Asynchronous IIFE
 (async () => {
@@ -44,6 +45,8 @@ import { contextMenuSubscribe } from './context-menu'
     app.stage.hitArea = app.screen;
     app.stage.on('pointerup', onDragEnd);
     app.stage.on('pointerupoutside', onDragEnd);
+
+    app.stage.addChild(drawHandle('#FF0000'));
 
     let dragTarget = null;
 
